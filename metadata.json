@@ -1,0 +1,9 @@
+{
+  "name": "Lumina Bible",
+  "description": "A cinematic, distraction-free Bible experience with deep context and AI-powered study tools.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "display-capture"
+  ]
+}
