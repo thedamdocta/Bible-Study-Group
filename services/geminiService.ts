@@ -1,7 +1,7 @@
+
 import { GoogleGenAI } from "@google/genai";
 
 const getAI = () => {
-  // Lazy init to prevent top-level crashes if process is undefined
   const apiKey = process.env.API_KEY || '';
   return new GoogleGenAI({ apiKey });
 };
@@ -27,7 +27,7 @@ export const generateStudyNotes = async (
     `;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
     });
 
@@ -52,7 +52,7 @@ export const chatWithStudyCoach = async (
     `;
     
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
     });
     return response.text || "I'm thinking...";
