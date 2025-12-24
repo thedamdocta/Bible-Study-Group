@@ -4,11 +4,8 @@
  * Provides high-fidelity, cinematic narration for Scripture.
  */
 
-const RESEMBLE_API_KEY = 'vbmo8lyRilOVRULZMErJhAtt';
-// These UUIDs are necessary for the Resemble AI API. 
-// If they are invalid for the specific account, the API will return 404.
-const PROJECT_UUID = '882c7304'; 
-const VOICE_UUID = '0834316d'; 
+const RESEMBLE_API_KEY = import.meta.env.RESEMBLE_API_KEY || process.env.RESEMBLE_API_KEY;
+const VOICE_UUID = import.meta.env.RESEMBLE_VOICE_UUID || process.env.RESEMBLE_VOICE_UUID; 
 
 class ResembleAudioService {
   private audio: HTMLAudioElement | null = null;
@@ -47,18 +44,18 @@ class ResembleAudioService {
     const nextText = this.audioQueue.shift()!;
     
     try {
-      const response = await fetch(`https://app.resemble.ai/api/v2/projects/${PROJECT_UUID}/clips/sync`, {
+      const response = await fetch('https://f.cluster.resemble.ai/synthesize', {
         method: 'POST',
         headers: {
-          'Authorization': `Token token=${RESEMBLE_API_KEY}`,
+          'Authorization': `Bearer ${RESEMBLE_API_KEY}`,
           'Content-Type': 'application/json',
+          'Accept-Encoding': 'gzip',
         },
         body: JSON.stringify({
           voice_uuid: VOICE_UUID,
-          body: nextText,
+          data: nextText,
           output_format: 'mp3',
-          precision: 'pcm_16',
-          sample_rate: 44100
+          sample_rate: 48000
         }),
       });
 
